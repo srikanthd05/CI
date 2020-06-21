@@ -31,7 +31,7 @@
         <property name="umProjectsDir" location="${umExport}"/>
         
         <property name="buildOutputDir" value="${workspace.dir}/target/${projectName}/build"/>
-	<property name="buildSourceDir" value="${workspace.dir}/buildSourceDir"/>
+	<property name="buildSourceDir" value="${sDir}"/>
         <property name="repositoryName" value="${projectName}Repo"/>
         <property name="testPackageNamePattern" value="*_Test"/>
         <property name="jenkinsReportDir" value="${workspace.dir}/report"/>
