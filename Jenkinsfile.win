@@ -31,7 +31,7 @@ pipeline {
 	 stage('ZIP') {
    steps {
     
-    zip archive: true, dir: './buildSourceDir', glob: '', zipFile: "uat.zip"
+    zip archive: true, dir: './target/${env.JOB_NAME}/build', glob: '', zipFile: "uat.zip"
    }
   }
         stage('Deploy') {
