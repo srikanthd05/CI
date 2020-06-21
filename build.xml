@@ -30,7 +30,7 @@
         <property name="rulesProjectsDir" location="${rulesProjects}"/>
         <property name="umProjectsDir" location="${umExport}"/>
 	
-	<property name="isBuildPackagesDir" location="${workspace.dir}/buildSourceDir/IS"
+	<property name="isBuildPackagesDir" location="${workspace.dir}/buildSourceDir/IS"/>
         
         <property name="buildOutputDir" value="${workspace.dir}/target/${projectName}/build"/>
 	<property name="buildSourceDir" value="${workspace.dir}/buildSourceDir"/>
