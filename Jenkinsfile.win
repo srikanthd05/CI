@@ -32,7 +32,7 @@ node ('master'){
    if ("${IS_TARGET_TYPE}" == 'Clusters') {
        isISCluster=true
        clusters = Arrays.asList("${IS_TARGET_SERVER}".split(','))
-       props = readProperties file: '${env.SAG_CI_HOME}/System.properties'
+       props = readProperties file: "${env.SAG_CI_HOME}/System.properties"
        clusters.each{
          if("${isServers}" == '0'){
 	   isServers = props["${it}"]
@@ -50,7 +50,7 @@ node ('master'){
    if ("${BPM_TARGET_TYPE}" == 'Clusters') {
        isBPMCluster=true
        clusters = Arrays.asList("${BPM_TARGET_SERVER}".split(','))
-       props = readProperties file: '${env.SAG_CI_HOME}/System.properties'
+       props = readProperties file: "${env.SAG_CI_HOME}/System.properties"
        clusters.each{
          if("${bpmServers}" == '0'){
 	   bpmServers = props["${it}"]
@@ -66,7 +66,7 @@ node ('master'){
    if ("${RULE_TARGET_TYPE}" == 'Clusters') {
        isRuleCluster=true
        clusters = Arrays.asList("${RULE_TARGET_SERVER}".split(','))
-       props = readProperties file: '${env.SAG_CI_HOME}/System.properties'
+       props = readProperties file: "${env.SAG_CI_HOME}/System.properties"
        clusters.each{
          if("${bpmServers}" == '0'){
 	   ruleServers = props["${it}"]
