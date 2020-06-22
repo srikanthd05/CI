@@ -26,6 +26,7 @@ def isRuleCluster=false
 def isServers=0
 def bpmServers=0
 def ruleServers=0
+def mwsRuleServers=0
 def tempTarget
 
 node ('master'){
@@ -68,7 +69,7 @@ node ('master'){
        clusters = Arrays.asList("${RULE_TARGET_SERVER}".split(','))
        props = readProperties file: "${env.SAG_CI_HOME}/System.properties"
        clusters.each{
-         if("${bpmServers}" == '0'){
+         if("${ruleServers}" == '0'){
 	   ruleServers = props["${it}"]
 	 } else {
 	     tempTarget = props["${it}"]
@@ -78,10 +79,27 @@ node ('master'){
    } else {
           ruleServers="${RULE_TARGET_SERVER}"
        }
+       
+       if ("${MWSRULE_TARGET_TYPE}" == 'Clusters') {
+       isRuleCluster=true
+       clusters = Arrays.asList("${MWSRULE_TARGET_SERVER}".split(','))
+       props = readProperties file: "${env.SAG_CI_HOME}/System.properties"
+       clusters.each{
+         if("${mwsRuleServers}" == '0'){
+	   mwsRuleServers = props["${it}"]
+	 } else {
+	     tempTarget = props["${it}"]
+	     mwsRuleServers = "${mwsRuleServers}-${tempTarget}"
+	 }
+       } 
+   } else {
+          mwsRuleServers="${MWSRULE_TARGET_SERVER}"
+       }
 }
 isServers = isServers.replaceAll(",",":")
 bpmServers = bpmServers.replaceAll(",",":")
 ruleServers = ruleServers.replaceAll(",",":")
+mwsRuleServers = mwsRuleServers.replaceAll(",",":")
 pipeline {
     agent any 
 
@@ -100,7 +118,7 @@ pipeline {
   }
         stage('Deploy') {
             steps {
-		bat "${env.SAG_HOME}/common/lib/ant/bin/ant -DisDeployablePackages=${isDeployablePackages} -DbpmDeployableProjects=${bpmDeployableProjects} -DrulesDeployableProjects=${rulesDeployableProjects} -DisISCluster=${isISCluster} -DisBPMCluster=${isBPMCluster} -DisRuleCluster=${isRuleCluster} -DSAGHome=${env.SAG_HOME} -DisServers=${isServers} -DbpmServers=${bpmServers} -DruleServers=${ruleServers} -DSAG_CI_HOME=${env.SAG_CI_HOME} -DprojectName=${env.JOB_NAME} deploy"
+		bat "${env.SAG_HOME}/common/lib/ant/bin/ant -DisDeployablePackages=${isDeployablePackages} -DbpmDeployableProjects=${bpmDeployableProjects} -DrulesDeployableProjects=${rulesDeployableProjects} -DisISCluster=${isISCluster} -DisBPMCluster=${isBPMCluster} -DisRuleCluster=${isRuleCluster} -DSAGHome=${env.SAG_HOME} -DisServers=${isServers} -DbpmServers=${bpmServers} -DruleServers=${ruleServers} -DmwsRuleServers=${mwsRuleServers} -DSAG_CI_HOME=${env.SAG_CI_HOME} -DprojectName=${env.JOB_NAME} deploy"
             }
         }
  	stage('Test') {
