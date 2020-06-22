@@ -39,11 +39,12 @@ node ('master'){
 	 } else {
 	     tempTarget = props["${it}"]
 	     isServers = "${isServers}-${tempTarget}"
-	 }
-       } else {
+	 } 
+	 
+       } 
+   } else {
          isServers="${IS_TARGET_SERVER}"
        }
-   }
    
    if ("${BPM_TARGET_TYPE}" == 'Clusters') {
        isBPMCluster=true
@@ -56,10 +57,10 @@ node ('master'){
 	     tempTarget = props["${it}"]
 	     bpmServers = "${bpmServers}-${tempTarget}"
 	 }
-       } else {
+       } 
+   } else {
           bpmServers="${BPM_TARGET_SERVER}"
        }
-   }
    
    if ("${RULE_TARGET_TYPE}" == 'Clusters') {
        isRuleCluster=true
@@ -72,10 +73,10 @@ node ('master'){
 	     tempTarget = props["${it}"]
 	     ruleServers = "${ruleServers}-${tempTarget}"
 	 }
-       } else {
+       } 
+   } else {
           ruleServers="${RULE_TARGET_SERVER}"
        }
-   }
 }
 isServers = isServers.replaceAll(",",":")
 bpmServers = bpmServers.replaceAll(",",":")
