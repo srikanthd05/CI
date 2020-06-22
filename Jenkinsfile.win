@@ -20,6 +20,60 @@
 def isDeployablePackages="${ISPACKAGES.replaceAll(",",":")}"
 def bpmDeployableProjects="${BPMPROJECTS.replaceAll(",",":")}"
 def rulesDeployableProjects="${RULEPROJECTS.replaceAll(",",":")}"
+def isISCluster=false
+def isBPMCluster=false
+def isRuleCluster=false
+def isServers=0
+def bpmServers=0
+def ruleServers=0
+def tempTarget
+
+node ('master'){
+   if ("${IS_TARGET_TYPE}" == 'Clusters') {
+       isISCluster=true
+       clusters = Arrays.asList("${TARGETS}".split(','))
+       props = readProperties file: '${env.SAG_CI_HOME}/System.properties'
+       clusters.each{
+         if("${isServers}" == '0'){
+	   isServers = props["${it}"]
+	 } else {
+	     tempTarget = props["${it}"]
+	     isServers = "${isServers}-${tempTarget}"
+	 }
+       }
+   }
+   
+   if ("${BPM_TARGET_TYPE}" == 'Clusters') {
+       isBPMCluster=true
+       clusters = Arrays.asList("${TARGETS}".split(','))
+       props = readProperties file: '${env.SAG_CI_HOME}/System.properties'
+       clusters.each{
+         if("${bpmServers}" == '0'){
+	   bpmServers = props["${it}"]
+	 } else {
+	     tempTarget = props["${it}"]
+	     bpmServers = "${bpmServers}-${tempTarget}"
+	 }
+       }
+   }
+   
+   if ("${RULE_TARGET_TYPE}" == 'Clusters') {
+       isRuleCluster=true
+       clusters = Arrays.asList("${TARGETS}".split(','))
+       props = readProperties file: '${env.SAG_CI_HOME}/System.properties'
+       clusters.each{
+         if("${bpmServers}" == '0'){
+	   ruleServers = props["${it}"]
+	 } else {
+	     tempTarget = props["${it}"]
+	     ruleServers = "${ruleServers}-${tempTarget}"
+	 }
+       }
+   }
+}
+isServers = isServers.replaceAll(',',':')
+bpmServers = bpmServers.replaceAll(',',':')
+ruleServers = ruleServers.replaceAll(',',':')
 pipeline {
     agent any 
 
@@ -38,7 +92,7 @@ pipeline {
   }
         stage('Deploy') {
             steps {
-		bat "${env.SAG_HOME}/common/lib/ant/bin/ant -DSAGHome=${env.SAG_HOME} -DSAG_CI_HOME=${env.SAG_CI_HOME} -DprojectName=${env.JOB_NAME} deploy"
+		bat "${env.SAG_HOME}/common/lib/ant/bin/ant -DisISCluster=${isISCluster} -DisBPMCluster=${isBPMCluster} -DisRuleCluster=${isRuleCluster} -DSAGHome=${env.SAG_HOME} -DisServer=${isServers} -DbpmServers=${bpmServers} -DruleServers=${ruleServers} -DSAG_CI_HOME=${env.SAG_CI_HOME} -DprojectName=${env.JOB_NAME} deploy"
             }
         }
  	stage('Test') {
