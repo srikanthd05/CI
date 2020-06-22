@@ -32,7 +32,7 @@ pipeline {
 	
 	 stage('ZIP') {
    steps {
-    
+    bat "del uat.zip"
     zip archive: true, dir: './target/copy/build', glob: '', zipFile: "uat.zip"
    }
   }
