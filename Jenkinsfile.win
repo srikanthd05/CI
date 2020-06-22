@@ -17,9 +17,9 @@
 *   limitations under the License.                                                            
 *
 */
-def isDeployablePackages="${ISPACKAGESreplaceAll(",",":")}"
-def bpmDeployableProjects="${BPMPROJECTSreplaceAll(",",":")}"
-def rulesDeployableProjects="${RULEPROJECTSreplaceAll(",",":")}"
+def isDeployablePackages="${ISPACKAGES.replaceAll(",",":")}"
+def bpmDeployableProjects="${BPMPROJECTS.replaceAll(",",":")}"
+def rulesDeployableProjects="${RULEPROJECTS.replaceAll(",",":")}"
 pipeline {
     agent any 
 
