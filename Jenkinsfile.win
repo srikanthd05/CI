@@ -31,7 +31,7 @@ def tempTarget
 node ('master'){
    if ("${IS_TARGET_TYPE}" == 'Clusters') {
        isISCluster=true
-       clusters = Arrays.asList("${TARGETS}".split(','))
+       clusters = Arrays.asList("${isServers}".split(','))
        props = readProperties file: '${env.SAG_CI_HOME}/System.properties'
        clusters.each{
          if("${isServers}" == '0'){
@@ -45,7 +45,7 @@ node ('master'){
    
    if ("${BPM_TARGET_TYPE}" == 'Clusters') {
        isBPMCluster=true
-       clusters = Arrays.asList("${TARGETS}".split(','))
+       clusters = Arrays.asList("${bpmServers}".split(','))
        props = readProperties file: '${env.SAG_CI_HOME}/System.properties'
        clusters.each{
          if("${bpmServers}" == '0'){
@@ -59,7 +59,7 @@ node ('master'){
    
    if ("${RULE_TARGET_TYPE}" == 'Clusters') {
        isRuleCluster=true
-       clusters = Arrays.asList("${TARGETS}".split(','))
+       clusters = Arrays.asList("${ruleServers}".split(','))
        props = readProperties file: '${env.SAG_CI_HOME}/System.properties'
        clusters.each{
          if("${bpmServers}" == '0'){
