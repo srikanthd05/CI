@@ -32,6 +32,7 @@
 	
 	<property name="isBuildPackagesDir" location="${workspace.dir}/buildSourceDir/IS"/>
 	<property name="bpmBuildProjectsDir" location="${workspace.dir}/buildSourceDir/BPM"/>
+	<property name="ruleBuildProjectsDir" location="${workspace.dir}/buildSourceDir/Rules"/>
         
         <property name="buildOutputDir" value="${workspace.dir}/target/${projectName}/build"/>
 	<property name="buildSourceDir" value="${workspace.dir}/buildSourceDir"/>
