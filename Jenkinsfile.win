@@ -23,6 +23,7 @@ def rulesDeployableProjects="${RULEPROJECTS.replaceAll(",",":")}"
 def isISCluster=false
 def isBPMCluster=false
 def isRuleCluster=false
+def isMWSRuleCluster=false
 def isServers=0
 def bpmServers=0
 def ruleServers=0
@@ -81,7 +82,7 @@ node ('master'){
        }
        
        if ("${MWSRULE_TARGET_TYPE}" == 'Clusters') {
-       isRuleCluster=true
+       isMWSRuleCluster=true
        clusters = Arrays.asList("${MWSRULE_TARGET_SERVER}".split(','))
        props = readProperties file: "${env.SAG_CI_HOME}/System.properties"
        clusters.each{
@@ -118,7 +119,7 @@ pipeline {
   }
         stage('Deploy') {
             steps {
-		bat "${env.SAG_HOME}/common/lib/ant/bin/ant -DisDeployablePackages=${isDeployablePackages} -DbpmDeployableProjects=${bpmDeployableProjects} -DrulesDeployableProjects=${rulesDeployableProjects} -DisISCluster=${isISCluster} -DisBPMCluster=${isBPMCluster} -DisRuleCluster=${isRuleCluster} -DSAGHome=${env.SAG_HOME} -DisServers=${isServers} -DbpmServers=${bpmServers} -DruleServers=${ruleServers} -DmwsRuleServers=${mwsRuleServers} -DSAG_CI_HOME=${env.SAG_CI_HOME} -DprojectName=${env.JOB_NAME} deploy"
+		bat "${env.SAG_HOME}/common/lib/ant/bin/ant -DisDeployablePackages=${isDeployablePackages} -DbpmDeployableProjects=${bpmDeployableProjects} -DrulesDeployableProjects=${rulesDeployableProjects} -DisISCluster=${isISCluster} -DisBPMCluster=${isBPMCluster} -DisMWSRuleCluster=${isMWSRuleCluster} -DisRuleCluster=${isRuleCluster} -DSAGHome=${env.SAG_HOME} -DisServers=${isServers} -DbpmServers=${bpmServers} -DruleServers=${ruleServers} -DmwsRuleServers=${mwsRuleServers} -DSAG_CI_HOME=${env.SAG_CI_HOME} -DprojectName=${env.JOB_NAME} deploy"
             }
         }
  	stage('Test') {
