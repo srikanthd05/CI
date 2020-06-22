@@ -71,9 +71,9 @@ node ('master'){
        }
    }
 }
-isServers = isServers.replaceAll(',',':')
-bpmServers = bpmServers.replaceAll(',',':')
-ruleServers = ruleServers.replaceAll(',',':')
+isServers = isServers.replaceAll(",",":")
+bpmServers = bpmServers.replaceAll(",",":")
+ruleServers = ruleServers.replaceAll(",",":")
 pipeline {
     agent any 
 
