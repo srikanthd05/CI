@@ -31,7 +31,7 @@ def tempTarget
 node ('master'){
    if ("${IS_TARGET_TYPE}" == 'Clusters') {
        isISCluster=true
-       clusters = Arrays.asList("${isServers}".split(','))
+       clusters = Arrays.asList("${IS_TARGET_SERVER}".split(','))
        props = readProperties file: '${env.SAG_CI_HOME}/System.properties'
        clusters.each{
          if("${isServers}" == '0'){
@@ -40,12 +40,14 @@ node ('master'){
 	     tempTarget = props["${it}"]
 	     isServers = "${isServers}-${tempTarget}"
 	 }
+       } else {
+         isServers="${IS_TARGET_SERVER}"
        }
    }
    
    if ("${BPM_TARGET_TYPE}" == 'Clusters') {
        isBPMCluster=true
-       clusters = Arrays.asList("${bpmServers}".split(','))
+       clusters = Arrays.asList("${BPM_TARGET_SERVER}".split(','))
        props = readProperties file: '${env.SAG_CI_HOME}/System.properties'
        clusters.each{
          if("${bpmServers}" == '0'){
@@ -54,12 +56,14 @@ node ('master'){
 	     tempTarget = props["${it}"]
 	     bpmServers = "${bpmServers}-${tempTarget}"
 	 }
+       } else {
+          bpmServers="${BPM_TARGET_SERVER}"
        }
    }
    
    if ("${RULE_TARGET_TYPE}" == 'Clusters') {
        isRuleCluster=true
-       clusters = Arrays.asList("${ruleServers}".split(','))
+       clusters = Arrays.asList("${RULE_TARGET_SERVER}".split(','))
        props = readProperties file: '${env.SAG_CI_HOME}/System.properties'
        clusters.each{
          if("${bpmServers}" == '0'){
@@ -68,6 +72,8 @@ node ('master'){
 	     tempTarget = props["${it}"]
 	     ruleServers = "${ruleServers}-${tempTarget}"
 	 }
+       } else {
+          ruleServers="${RULE_TARGET_SERVER}"
        }
    }
 }
